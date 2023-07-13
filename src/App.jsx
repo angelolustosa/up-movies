@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 //import './App.css'
 import { FaTrash, FaEdit } from 'react-icons/fa';
+import moment from 'moment/moment';
 
 function App() {
   const [filmes, setFilmes] = useState([]);
@@ -54,6 +55,16 @@ function App() {
     setFilmes(filmesAtualizados);
   };
 
+  useEffect(() => {
+    fetch('https://api.themoviedb.org/3/movie/popular?language=pt-BR&api_key=48e701db3f552e0a51c09d43137bd270')
+      .then(res => res.json())
+      .then(json => {
+        //console.log(json.results)
+        setFilmes(json.results)
+      })
+  }, [])
+
+
   return (
     <>
       <div className="container mt-4">
@@ -73,16 +84,16 @@ function App() {
           </div>
           <button type="submit" className="btn btn-primary">Adicionar Filme</button>
         </form>
-        <div className="row row-cols-1 row-cols-md-3 g-4 mt-4">
+        <div className="row row-cols-1 row-cols-md-6 mt-4">
           {filmes.map((filme, index) => (
-            <div key={index} className="col">
-              <div className="card">
-                <img src="https://www.themoviedb.org/t/p/w220_and_h330_face/3yum4eL013NesiXjsGkaMVQecJn.jpg" className="card-img-top" alt="Filme" />
+            <div className="col mb-2">
+              <div className="card" /* style={{ height: '44rem' }} */ style={{ height: '38rem' }} >
+                <img src={`https://image.tmdb.org/t/p/w220_and_h330_face${filme.poster_path}`} className="card-img-top" alt="Filme" />
                 <div className="card-body">
-                  <h5 className="card-title">{filme.titulo}</h5>
-                  <p className="card-text">Diretor: {filme.diretor}</p>
-                  <p className="card-text">Gênero: {filme.genero}</p>
-                  <div className="d-flex justify-content-end">
+                  <h5 className="card-title">{filme.title}</h5>
+                  <p>Diretor: {filme.diretor}</p>
+                  <p>Gênero: {filme.genero}</p>
+                  <div id='buttons'>
                     <button className="btn btn-primary me-2" onClick={() => editarFilme(index)}>
                       <FaEdit />
                     </button>
@@ -91,10 +102,55 @@ function App() {
                     </button>
                   </div>
                 </div>
+                <div className="card-footer">
+                  <small className="text-body-secondary">{`Lançamento: ${moment(filme.release_date).format("DD/MM/YYYY")}`}</small>
+                </div>
               </div>
             </div>
           ))}
         </div>
+
+        {/* https://codepen.io/Kerrys7777/pen/QWgwEeG?editors=1000*/}
+        {/*   { <div className="col mb-2">
+              <div className="card h-100 ">
+              <img src={`https://image.tmdb.org/t/p/w220_and_h330_face${filme.poster_path}`} className="card-img-top" alt="Filme" />
+                  <div className="card-body">
+                    <h5 className="card-title">{filme.title}</h5>
+                    <p className="card-text">{filme.overview}</p>
+                  </div>
+              </div>
+            </div>} */}
+
+        {/* {} */}
+
+        {/* <div className="container">
+              <div className="col-lg-12 mb-3 d-flex align-items-">
+                <div className="card">
+                  <img src={`https://image.tmdb.org/t/p/w220_and_h330_face${filme.poster_path}`} className="card-img-top" alt="Filme" />
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title">{filme.title}</h5>
+                    <p className="card-text">{filme.overview}</p>
+                    <a href="#" className="btn btn-primary mt-auto align-self-start">Book now</a>
+                  </div>
+                </div>
+              </div>
+            </div> */}
+
+
+        {/* <div className="card-group" style={{width: '20em', height: 'fit-content'}}>
+              {console.log(filme)}
+              <div className="card">
+                <img src={`https://image.tmdb.org/t/p/w220_and_h330_face${filme.poster_path}`} className="card-img-top" alt="Filme" />
+                <div className="card-body">
+                  <h5 className="card-title">{filme.title}</h5>
+                  <p className="card-text">{filme.overview}</p>
+                </div>
+                <div className="card-footer">
+                  <small className="text-body-secondary">{`Lançamento: ${moment(filme.release_date).format("DD/MM/YYYY")}`}</small>
+                </div>
+              </div>
+            </div> */}
+
         {/* <div className="mt-4">
           <h4>Filmes Cadastrados:</h4>
           <ul className="list-group">
@@ -104,26 +160,32 @@ function App() {
           </ul>
         </div> */}
       </div>
-      {/* <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
+
+
+      {/* <div key={index}>
+        {console.log(filme)}
+        <div key={index} className="card" style={{ width: '12em' }}>
+          <img src={`https://image.tmdb.org/t/p/w220_and_h330_face${filme.poster_path}`} className="card-img-top" alt="Filme" />
+          <div className="card-body">
+            <div key={index} className="card" style={{ width: '12em', height: '32rem' }}>
+              <img src={`https://image.tmdb.org/t/p/w220_and_h330_face${filme.poster_path}`} className="card-img-top" alt="Filme" />
+              <div className="card-body">
+                <h5 className="card-title">{filme.title}</h5>
+                <p>Diretor: {filme.diretor}</p>
+                <p>Gênero: {filme.genero}</p>
+                <div className="d-flex justify-content-end">
+                  <button className="btn btn-primary me-2" onClick={() => editarFilme(index)}>
+                    <FaEdit />
+                  </button>
+                  <button className="btn btn-danger" onClick={() => excluirFilme(index)}>
+                    <FaTrash />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> */}
     </>
   )
 }
