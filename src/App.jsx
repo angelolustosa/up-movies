@@ -71,7 +71,7 @@ function App() {
                   <text x="30%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
                 </svg>
                 <div class="card-body d-flex flex-column">
-                  <h5 className="card-title">{filme.title}</h5>
+                  <h5 className="card-title">{filme.titulo}</h5>
                   <p class="card-text mb-4">{`${filme.diretor?.trim()} | ${filme.genero?.trim()}`}</p>
                   <a href="#" class="mt-auto align-self-start">
                     <button className="btn btn-primary" style={{ marginRight: '0.5em' }} onClick={() => editarFilme(index)}>
