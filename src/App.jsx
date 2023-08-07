@@ -1,7 +1,4 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-//import './App.css'
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import moment from 'moment/moment';
 
@@ -14,16 +11,6 @@ function App() {
   });
 
   const [editIndex, setEditIndex] = useState(-1);
-
-  /* const adicionarFilme = (e) => {
-    e.preventDefault();
-    setFilmes([...filmes, novoFilme]);
-    setNovoFilme({
-      titulo: '',
-      diretor: '',
-      genero: ''
-    });
-  }; */
 
   const adicionarFilme = e => {
     e.preventDefault();
@@ -55,16 +42,6 @@ function App() {
     setFilmes(filmesAtualizados);
   };
 
-  useEffect(() => {
-    fetch('https://api.themoviedb.org/3/movie/popular?language=pt-BR&api_key=48e701db3f552e0a51c09d43137bd270')
-      .then(res => res.json())
-      .then(json => {
-        //console.log(json.results)
-        setFilmes(json.results)
-      })
-  }, [])
-
-
   return (
     <>
       <div className="container mt-4">
@@ -86,47 +63,33 @@ function App() {
         </form>
         <div className="row">
           {filmes.map((filme, index) => (
-            <div class="col-lg-2 mb-3 d-flex align-items-stretch">
+            <div class="col-lg-2 mt-3 mb-3 d-flex align-items-stretch">
               <div class="card">
-                <img src={`https://image.tmdb.org/t/p/w220_and_h330_face${filme.poster_path}`} className="card-img-top" alt="Filme" />
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="#868e96"></rect>
+                  <text x="30%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+                </svg>
                 <div class="card-body d-flex flex-column">
                   <h5 className="card-title">{filme.title}</h5>
-                  {/* <p class="card-text mb-4">Is a manmade waterway dug in the early 1600's and now displays many landmark commercial locals and vivid neon signs.</p> */}
-                  <p class="card-text mb-4">{filme.overview.trim()}</p>
+                  <p class="card-text mb-4">{`${filme.diretor?.trim()} | ${filme.genero?.trim()}`}</p>
                   <a href="#" class="mt-auto align-self-start">
-                    <button className="btn btn-primary" style={{ marginRight: '0.5em'}} onClick={() => editarFilme(index)}>
-                    <FaEdit />
-                  </button>
-                  <button className="btn btn-danger" onClick={() => excluirFilme(index)}>
-                    <FaTrash />
-                  </button>
-                </a>
-              </div>
-              <div className="card-footer">
-                <small className="text-body-secondary">{`Lançamento: ${moment(filme.release_date).format("DD/MM/YYYY")}`}</small>
-              </div>
-            </div>
-            </div>
-          ))}
-      </div>
-
-      {/* https://codepen.io/Kerrys7777/pen/QWgwEeG?editors=1000*/}
-      {/*  <div className="row">
-        <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-        <div class="card">
-          <img src={`https://image.tmdb.org/t/p/w220_and_h330_face${filme.poster_path}`} className="card-img-top" alt="Filme" />
-          <div class="card-body d-flex flex-column">
-            <h5 className="card-title">{filme.title}</h5>
-            <p class="card-text mb-4">Is a manmade waterway dug in the early 1600's and now displays many landmark commercial locals and vivid neon signs.</p>
-            <a href="#" class="btn btn-primary mt-auto align-self-start">Book now</a>
-          </div>
-          <div className="card-footer">
+                    <button className="btn btn-primary" style={{ marginRight: '0.5em' }} onClick={() => editarFilme(index)}>
+                      <FaEdit />
+                    </button>
+                    <button className="btn btn-danger" onClick={() => excluirFilme(index)}>
+                      <FaTrash />
+                    </button>
+                  </a>
+                </div>
+                <div className="card-footer">
                   <small className="text-body-secondary">{`Lançamento: ${moment(filme.release_date).format("DD/MM/YYYY")}`}</small>
                 </div>
+              </div>
+            </div>
+          ))}
         </div>
-      </div> 
-      </div>*/}
-    </div >
+      </div >
     </>
   )
 }
