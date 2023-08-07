@@ -5,9 +5,11 @@ import moment from 'moment/moment';
 function App() {
   const [filmes, setFilmes] = useState([]);
   const [novoFilme, setNovoFilme] = useState({
-    titulo: '',
-    diretor: '',
-    genero: ''
+    titulo: 'Os Caçadores da Arca Perdida',
+    diretor: 'Steven Spielberg',
+    genero: 'Aventura/Ação',
+    dataLancamento: '25/12/1981',
+    ulrImage: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xNH45rTLSd409SENyI4sPL4kn1N.jpg '
   });
 
   const [editIndex, setEditIndex] = useState(-1);
@@ -25,9 +27,11 @@ function App() {
     }
 
     setNovoFilme({
-      titulo: '',
-      diretor: '',
-      genero: ''
+      titulo: 'Os Caçadores da Arca Perdida',
+      diretor: 'Steven Spielberg',
+      genero: 'Aventura/Ação',
+      dataLancamento: '25/12/1981',
+      ulrImage: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xNH45rTLSd409SENyI4sPL4kn1N.jpg '
     });
   };
 
@@ -49,29 +53,40 @@ function App() {
         <form onSubmit={adicionarFilme}>
           <div className="mb-3">
             <label htmlFor="titulo" className="form-label">Título</label>
-            <input type="text" id="titulo" value={novoFilme.titulo} onChange={(e) => setNovoFilme({ ...novoFilme, titulo: e.target.value })} className="form-control" />
+            <input type="text" id="titulo" value={novoFilme.titulo?.trim()} onChange={(e) => setNovoFilme({ ...novoFilme, titulo: e.target.value })} className="form-control" />
           </div>
           <div className="mb-3">
             <label htmlFor="diretor" className="form-label">Diretor</label>
-            <input type="text" id="diretor" value={novoFilme.diretor} onChange={(e) => setNovoFilme({ ...novoFilme, diretor: e.target.value })} className="form-control" />
+            <input type="text" id="diretor" value={novoFilme.diretor?.trim()} onChange={(e) => setNovoFilme({ ...novoFilme, diretor: e.target.value })} className="form-control" />
           </div>
           <div className="mb-3">
             <label htmlFor="genero" className="form-label">Gênero</label>
-            <input type="text" id="genero" value={novoFilme.genero} onChange={(e) => setNovoFilme({ ...novoFilme, genero: e.target.value })} className="form-control" />
+            <input type="text" id="genero" value={novoFilme.genero?.trim()} onChange={(e) => setNovoFilme({ ...novoFilme, genero: e.target.value })} className="form-control" />
           </div>
+          <div className="mb-3">
+            <label htmlFor="dataLancamento" className="form-label">Data Lançamento</label>
+            <input placeholder='dd/mm/yyyy' type="text" id="dataLancamento" value={novoFilme.dataLancamento?.trim()} onChange={(e) => setNovoFilme({ ...novoFilme, dataLancamento: e.target.value })} className="form-control" />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="ulrImage" className="form-label">Capa do Filme</label>
+            <input placeholder='https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xNH45rTLSd409SENyI4sPL4kn1N.jpg ' type="text" id="dataLancamento" value={novoFilme.ulrImage} onChange={(e) => setNovoFilme({ ...novoFilme, ulrImage: e.target.value })} className="form-control" />
+          </div>
+
           <button type="submit" className="btn btn-primary">Adicionar Filme</button>
         </form>
         <div className="row">
           {filmes.map((filme, index) => (
             <div class="col-lg-2 mt-3 mb-3 d-flex align-items-stretch">
               <div class="card">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
+                {/* <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
                   <title>Placeholder</title>
                   <rect width="100%" height="100%" fill="#868e96"></rect>
                   <text x="30%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-                </svg>
+                </svg> */}
+                {/* */}
+                <img src={filme.ulrImage} alt="" srcset="" />
                 <div class="card-body d-flex flex-column">
-                  <h5 className="card-title">{filme.title}</h5>
+                  <h5 className="card-title">{filme.titulo}</h5>
                   <p class="card-text mb-4">{`${filme.diretor?.trim()} | ${filme.genero?.trim()}`}</p>
                   <a href="#" class="mt-auto align-self-start">
                     <button className="btn btn-primary" style={{ marginRight: '0.5em' }} onClick={() => editarFilme(index)}>
@@ -83,7 +98,7 @@ function App() {
                   </a>
                 </div>
                 <div className="card-footer">
-                  <small className="text-body-secondary">{`Lançamento: ${moment(filme.release_date).format("DD/MM/YYYY")}`}</small>
+                  <small className="text-body-secondary">{`Lançamento: ${filme.dataLancamento}`}</small>
                 </div>
               </div>
             </div>
